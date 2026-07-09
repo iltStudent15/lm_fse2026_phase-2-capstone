@@ -1,0 +1,101 @@
+.page-title {
+  margin: 0;
+  font-size: 1.7rem;
+}
+
+.page-subtitle {
+  margin: 0.5rem 0 1rem;
+  color: var(--text-muted);
+}
+
+.status-chip {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  color: var(--text-muted);
+  background-color: #ffffff;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.list-shell {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--bg-card);
+  overflow: hidden;
+}
+
+.customer-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customer-table thead {
+  background-color: #f8fafc;
+}
+
+.customer-table th,
+.customer-table td {
+  text-align: left;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.customer-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.action-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.action-link:hover {
+  text-decoration: underline;
+}
+
+.action-delete {
+  border: none;
+  background: transparent;
+  color: var(--danger);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.action-delete:hover {
+  color: var(--danger-hover);
+}
+
+.list-empty,
+.page-notice,
+.page-error {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  padding: 0.9rem 1rem;
+}
+
+.page-error {
+  color: var(--danger);
+  border-color: #fecaca;
+  background-color: #fef2f2;
+}
+
+@media (max-width: 900px) {
+  .list-shell {
+    overflow-x: auto;
+  }
+
+  .customer-table {
+    min-width: 680px;
+  }
+}
