@@ -13,7 +13,7 @@ export function CustomerProvider({ children }: CustomerProviderProps) {
     customers,
     loading,
     error,
-    refreshCustomers: () => loadCustomers(),
+    refreshCustomers: () => { loadCustomers(); },
     addCustomer,
     updateCustomer,
     deleteCustomer,

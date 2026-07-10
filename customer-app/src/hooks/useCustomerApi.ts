@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Customer, CustomerFormData } from '../types/customer';
 
 const API_BASE = '/api/customers';
@@ -8,104 +8,79 @@ export function useCustomerApi() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const runRequest = useCallback(async <T>(request: () => Promise<T>): Promise<T> => {
+  async function loadCustomers() {
     setLoading(true);
     setError(null);
-
     try {
-      return await request();
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Unexpected API error';
-      setError(message);
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const loadCustomers = useCallback(async (signal?: AbortSignal) => {
-    const data = await runRequest(async () => {
-      const response = await fetch(API_BASE, { signal });
-
+      const response = await fetch(API_BASE);
       if (!response.ok) {
         throw new Error(`Failed to fetch customers (${response.status})`);
       }
-
-      const customersData: Customer[] = await response.json();
-      return customersData;
-    });
-
-    setCustomers(data);
-    return data;
-  }, [runRequest]);
+      const data: Customer[] = await response.json();
+      setCustomers(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unexpected error');
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-    const controller = new AbortController();
+    loadCustomers();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    loadCustomers(controller.signal).catch((err) => {
-      if (err instanceof DOMException && err.name === 'AbortError') {
-        return;
-      }
-    });
-
-    return () => {
-      controller.abort();
-    };
-  }, [loadCustomers]);
-
-  const addCustomer = useCallback(async (formData: CustomerFormData) => {
-    await runRequest(async () => {
+  async function addCustomer(formData: CustomerFormData) {
+    setLoading(true);
+    setError(null);
+    try {
       const response = await fetch(API_BASE, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
       if (!response.ok) {
         throw new Error(`Failed to add customer (${response.status})`);
       }
-    });
+      await loadCustomers();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unexpected error');
+      setLoading(false);
+    }
+  }
 
-    await loadCustomers();
-  }, [loadCustomers, runRequest]);
-
-  const updateCustomer = useCallback(async (customer: Customer) => {
-    await runRequest(async () => {
+  async function updateCustomer(customer: Customer) {
+    setLoading(true);
+    setError(null);
+    try {
       const response = await fetch(`${API_BASE}/${customer.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(customer),
       });
-
       if (!response.ok) {
         throw new Error(`Failed to update customer (${response.status})`);
       }
-    });
+      await loadCustomers();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unexpected error');
+      setLoading(false);
+    }
+  }
 
-    await loadCustomers();
-  }, [loadCustomers, runRequest]);
-
-  const deleteCustomer = useCallback(async (id: number) => {
-    await runRequest(async () => {
-      const response = await fetch(`${API_BASE}/${id}`, {
-        method: 'DELETE',
-      });
-
+  async function deleteCustomer(id: number) {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_BASE}/${id}`, { method: 'DELETE' });
       if (!response.ok) {
         throw new Error(`Failed to delete customer (${response.status})`);
       }
-    });
+      await loadCustomers();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unexpected error');
+      setLoading(false);
+    }
+  }
 
-    await loadCustomers();
-  }, [loadCustomers, runRequest]);
-
-  return {
-    customers,
-    loading,
-    error,
-    loadCustomers,
-    addCustomer,
-    updateCustomer,
-    deleteCustomer,
-  };
+  return { customers, loading, error, loadCustomers, addCustomer, updateCustomer, deleteCustomer };
 }

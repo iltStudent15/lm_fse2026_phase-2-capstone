@@ -19,7 +19,7 @@ App
 ## Architecture Decisions
 
 ### 1. Where will customer state live?
-**Decision: CustomerContext wrapping the app (Option B — useReducer + Context)**
+**Decision: CustomerContext wrapping the app (Option A with Context wrapper — useState in a custom API hook)**
 
 Customer data needs to be accessible from three separate pages (List, Add, Edit) with no
 direct parent-child relationship between them. Lifting state to App and threading it through
@@ -27,12 +27,11 @@ Layout into each page would create prop-drilling. A Context provider at the App 
 every page direct access via `useCustomerContext()`.
 
 ### 2. How will CRUD operations be managed?
-**Decision: useReducer with typed action creators**
+**Decision: useState-based custom hook with typed async CRUD helpers**
 
-Actions: `SET_CUSTOMERS | ADD_CUSTOMER | UPDATE_CUSTOMER | DELETE_CUSTOMER`
-
-`useReducer` makes state transitions explicit and predictable. Each action is a plain object
-with a discriminated union type, so TypeScript catches any mismatched payloads at compile time.
+The `useCustomerApi` hook owns `customers`, `loading`, and `error` state and provides
+`addCustomer`, `updateCustomer`, `deleteCustomer`, and `loadCustomers` functions.
+After every mutation, the hook re-fetches data from `/api/customers`.
 
 ### 3. What custom hooks are needed?
 - **`useCustomerApi`** — wraps all `fetch` calls to `/api/customers`, tracks `loading` and `error`
