@@ -21,8 +21,6 @@ export default function ListPage() {
   return (
     <section>
       <h2 className="page-title">Customers</h2>
-      <p className="page-subtitle">Manage customer records from the shared API-backed store.</p>
-      <span className="status-chip">Total: {customers.length}</span>
 
       {loading && <p className="page-notice">Loading customers...</p>}
       {!loading && error && <p className="page-error">{error}</p>}

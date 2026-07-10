@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CustomerForm from '../components/CustomerForm';
 import { useCustomerContext } from '../hooks/useCustomerContext';
@@ -9,10 +8,7 @@ export default function EditPage() {
   const { id } = useParams<{ id: string }>();
   const { customers, updateCustomer, loading, error } = useCustomerContext();
 
-  const customer = useMemo(
-    () => customers.find((item) => item.id === Number(id)),
-    [customers, id],
-  );
+  const customer = customers.find((item) => item.id === Number(id));
 
   const handleSubmit = async (formData: CustomerFormData) => {
     if (!customer) {

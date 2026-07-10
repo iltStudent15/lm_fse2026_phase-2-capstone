@@ -27,7 +27,7 @@ export function useCustomerApi() {
 
   useEffect(() => {
     loadCustomers();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   async function addCustomer(formData: CustomerFormData) {
     setLoading(true);

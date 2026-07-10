@@ -3,22 +3,6 @@
   font-size: 1.7rem;
 }
 
-.page-subtitle {
-  margin: 0.5rem 0 1rem;
-  color: var(--text-muted);
-}
-
-.status-chip {
-  display: inline-flex;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 0.2rem 0.7rem;
-  color: var(--text-muted);
-  background-color: #ffffff;
-  font-size: 0.85rem;
-  margin-bottom: 1rem;
-}
-
 .list-shell {
   border: 1px solid var(--border);
   border-radius: var(--radius);

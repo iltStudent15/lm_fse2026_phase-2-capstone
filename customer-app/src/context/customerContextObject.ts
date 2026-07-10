@@ -5,7 +5,6 @@ export type CustomerContextValue = {
   customers: Customer[];
   loading: boolean;
   error: string | null;
-  refreshCustomers: () => void;
   addCustomer: (formData: CustomerFormData) => Promise<void>;
   updateCustomer: (customer: Customer) => Promise<void>;
   deleteCustomer: (id: number) => Promise<void>;
