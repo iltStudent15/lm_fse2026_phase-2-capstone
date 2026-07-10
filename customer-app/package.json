@@ -2,7 +2,7 @@
   "name": "customer-app",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://iltStudent15.github.io/lm_fse2026_phase-2-capstone",
+  "homepage": "https://iltStudent15.github.io/customer-app",
   "type": "module",
   "scripts": {
     "dev": "vite",

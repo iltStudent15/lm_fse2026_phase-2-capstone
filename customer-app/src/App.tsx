@@ -6,10 +6,14 @@ import EditPage from './pages/EditPage';
 import { CustomerProvider } from './context/CustomerContext';
 import ErrorBoundary from './components/ErrorBoundary';
 
+const baseUrl = import.meta.env.BASE_URL
+const routerBasename =
+  baseUrl === '/' ? '/' : baseUrl.replace(/\/$/, '')
+
 function App() {
   return (
     <CustomerProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={routerBasename}>
         <ErrorBoundary>
           <Routes>
             <Route path="/" element={<Layout />}>

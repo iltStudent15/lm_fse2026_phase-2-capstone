@@ -1,8 +1,9 @@
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 
+// https://vite.dev/config/
 export default defineConfig({
-  base: '/lm_fse2026_phase-2-capstone/',
+  base: '/customer-app/',
   plugins: [react()],
   server: {
     proxy: {
